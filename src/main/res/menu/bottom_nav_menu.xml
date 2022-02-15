@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/buy"
+        android:title="@string/buy" />
+
+    <item
+        android:id="@+id/navigation_dashboard"
+        android:icon="@drawable/dollar"
+        android:title="@string/sell" />
+
+    <item
+        android:id="@+id/navigation_deals"
+        android:icon="@drawable/deal"
+        android:title="@string/deals"/>
+
+
+    <item
+        android:id="@+id/navigation_notifications"
+        android:icon="@drawable/cart"
+        android:title="Cart"/>
+
+</menu>
