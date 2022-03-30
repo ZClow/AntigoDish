@@ -1,9 +1,44 @@
 <resources>
-    <string name="app_name">SoftwareV1.0</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
-    <string name="buy">Buy</string>
+    <string name="app_name">485 project</string>
+    <string name="add_item">Add Item</string>
     <string name="sell">Sell</string>
-    <string name="deals">Deals</string>
+
+    <string name="dish1">Chicken Parmesan</string>
+    <string name="dish1_price">$17.50</string>
+    <string name="dish2">Beef Ravioli</string>
+    <string name="dish2_price">$14.50</string>
+    <string name="dish3">Beef Stroganoff</string>
+    <string name="dish3_price">$16.50</string>
+    <string name="dish4">Baked Salmon</string>
+    <string name="dish4_price">$13.50</string>
+    <string name="dish5">Chicken Tikka Masala</string>
+    <string name="dish5_price">$17.50</string>
+    <string name="dish6">Shepherd\'s Pie</string>
+    <string name="dish6_price">$14.50</string>
+    <string name="dish7">Smoked Pork Ribs</string>
+    <string name="dish7_price">$18.00</string>
+    <string name="dish8">Chicken Lo Mein</string>
+    <string name="dish8_price">$15.50</string>
+    <string name="dish9">Crab Cakes</string>
+    <string name="dish9_price">$12.50</string>
+    <string name="dish10">Schezwan Chicken</string>
+    <string name="dish10_price">$14.50</string>
+    <string name="add_to_cart">add_to_cart</string>
+
+    <string name="Desc1">"It's food"</string>
+    <string name="Loc1">Olive Garden</string>
+
+    <string name="Desc2">Ravioli Ravioli give me the formuoli</string>
+    <string name="Loc2">Krusty Krab</string>
+
+    <string name="Desc3">Wow</string>
+    <string name="Loc3">Your moms house</string>
+
+    <string name="Desc4">It fish</string>
+    <string name="Loc4">The store</string>
+
+    <string name="Desc5">Patrick Stewarts Favorite</string>
+    <string name="Loc5">Dollarama</string>
+
+
 </resources>
