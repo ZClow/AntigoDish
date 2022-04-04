@@ -13,7 +13,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:context=".MainActivity">
+        tools:context=".MainActivitySell">
 
         <TextView
             android:id="@+id/textView"
@@ -144,7 +144,6 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/item_cost"
-                android:onClick = "store_input_cost"
                 android:layout_width="158dp"
                 android:layout_height="match_parent"
                 android:hint="Cost Per Item" />

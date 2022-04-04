@@ -3,6 +3,7 @@
     package="com.example.a485project">
 
     <application
+        android:name=".ItemApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -22,7 +23,7 @@
             android:name=".MainActivity2"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".MainActivitySell"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
