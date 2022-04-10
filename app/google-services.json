@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "291956172119",
+    "project_id": "antigodish",
+    "storage_bucket": "antigodish.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:291956172119:android:930366aeeb6a57a3bf8a12",
+        "android_client_info": {
+          "package_name": "com.example.login"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "291956172119-57g9a0hjnpu24qj0n4jfssomt5kr3ib6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7iYRXiUOoYWSBkntLnu9by82rXX4LuU8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "291956172119-57g9a0hjnpu24qj0n4jfssomt5kr3ib6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
