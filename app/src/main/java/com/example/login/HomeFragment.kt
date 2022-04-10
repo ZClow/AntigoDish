@@ -1,19 +1,34 @@
 package com.example.login
 
+import android.content.Intent
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.Toast
+import androidx.appcompat.content.res.AppCompatResources
+import com.example.login.databinding.ActivityMainBinding
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
+import de.hdodenhof.circleimageview.CircleImageView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+//private const val ARG_PARAM1 = "param1"
+//private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
@@ -22,16 +37,15 @@ private const val ARG_PARAM2 = "param2"
  */
 class HomeFragment : Fragment() {
     // TODO: Rename and change types of parameters
-//    private var param1: String? = null
-//    private var param2: String? = null
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        arguments?.let {
-////            param1 = it.getString(ARG_PARAM1)
-////            param2 = it.getString(ARG_PARAM2)
-//        }
-//    }
+
+    private lateinit var firstname: EditText
+    private lateinit var lastname: EditText
+    private lateinit var bio: EditText
+    private lateinit var fAuth: FirebaseAuth
+    private lateinit var dbreference: DatabaseReference
+    private lateinit var uploader: ImageButton
+    private lateinit var image: CircleImageView
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,32 +53,110 @@ class HomeFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_home, container, false)
+
+//        firstname = view.findViewById(R.id.et_firstname)
+//        lastname = view.findViewById(R.id.et_lastname)
+//        bio = view.findViewById(R.id.et_bio)
+
+        firstname = view.findViewById<EditText>(R.id.et_firstname)
+        lastname = view.findViewById<EditText>(R.id.et_lastname)
+        bio = view.findViewById<EditText>(R.id.et_bio)
+        fAuth = FirebaseAuth.getInstance()
+
+//        view.findViewById<ImageButton>(R.id.bt_image).setOnClickListener{
+//            uploadImage()
+//        }
+
+
+
+
+//        val uid = fAuth.currentUser?.uid
+//        dbreference = FirebaseDatabase.getInstance().getReference("Users")
+
         view.findViewById<Button>(R.id.bt_logout).setOnClickListener{
             Firebase.auth.signOut()
             Toast.makeText(context, "Logged Out!", Toast.LENGTH_SHORT).show()
             var navHome = activity as FragmentNav
             navHome.navFragment(LoginFragment(), addToStack = false)
         }
+
+        view.findViewById<Button>(R.id.bt_save).setOnClickListener{
+            checkValid()
+        }
         return view
+
+
     }
 
-//    companion object {
-//        /**
-//         * Use this factory method to create a new instance of
-//         * this fragment using the provided parameters.
-//         *
-//         * @param param1 Parameter 1.
-//         * @param param2 Parameter 2.
-//         * @return A new instance of fragment HomeFragment.
-//         */
-//        // TODO: Rename and change types and number of parameters
-//        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//            HomeFragment().apply {
-//                arguments = Bundle().apply {
-//                    putString(ARG_PARAM1, param1)
-//                    putString(ARG_PARAM2, param2)
+//    private fun uploadImage() {
+//
+//
+//    }
+
+
+    private fun checkValid(){
+        val warningIcon = AppCompatResources.getDrawable(
+            requireContext(),
+            R.drawable.ic_baseline_warning_24
+        )
+        warningIcon?.setBounds(0, 0, warningIcon.intrinsicWidth, warningIcon.intrinsicHeight)
+        when {
+            TextUtils.isEmpty(firstname.text.toString().trim()) -> {
+                firstname.setError("Required Field!", warningIcon)
+            }
+            TextUtils.isEmpty(lastname.text.toString().trim()) -> {
+                lastname.setError("Required Field!", warningIcon)
+            }
+            firstname.text.toString().isNotEmpty() &&
+                    lastname.text.toString().isNotEmpty() -> {
+//                Toast.makeText(context,"Saved!", Toast.LENGTH_SHORT).show()
+                saveDetails(firstname.text.toString(), lastname.text.toString(), bio.text.toString())
+            }
+
+        }
+    }
+
+    private fun saveDetails(firstname: String, lastname: String, bio: String) {
+
+//        fAuth.currentUser?.let { user ->
+//            val firstname = view?.findViewById<EditText>(R.id.et_firstname)?.text.toString()
+//            val lastname = view?.findViewById<EditText>(R.id.et_lastname)?.text.toString()
+//            val bio = view?.findViewById<EditText>(R.id.et_bio)?.text.toString()
+//            val updates = UserProfileChangeRequest.Builder()
+//                .setDisplayName(firstname)
+//                .build()
+//
+//            CoroutineScope(Dispatchers.IO).launch {
+//                try {
+//                    user.saveDetails(updates).await()
+//                    withContext(Dispatchers.Main) {
+//                        Toast.makeText(context, "Saved!", Toast.LENGTH_SHORT).show()
+//                    }
+//
+//                    }catch (e: Exception){
+//                    withContext(Dispatchers.Main){
+//                        Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
+//                    }
 //                }
 //            }
-//    }
+//        }
+//        ------------------------------------------------------------------------------------
+//        val user = User(firstname, lastname, bio)
+//        fAuth = FirebaseAuth.getInstance()
+//        ------------------------------------------------------------------------------------
+        val uid = fAuth.currentUser?.uid
+        dbreference = FirebaseDatabase.getInstance().getReference("Users")
+
+        if (uid != null){
+            dbreference.child(uid).setValue(firstname).addOnCompleteListener{
+                if (it.isSuccessful){
+                    Toast.makeText(context,"Saved!", Toast.LENGTH_SHORT).show()
+                }
+                else{
+                    Toast.makeText(context, "Failed to Save!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+    }
 }

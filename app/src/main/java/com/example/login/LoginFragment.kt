@@ -32,13 +32,13 @@ class LoginFragment : Fragment() {
     private lateinit var password: EditText
     private lateinit var fAuth: FirebaseAuth
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        arguments?.let {
+////            param1 = it.getString(ARG_PARAM1)
+////            param2 = it.getString(ARG_PARAM2)
+//        }
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,8 +70,8 @@ class LoginFragment : Fragment() {
             task ->
             if (task.isSuccessful){
                 Toast.makeText(context, "Login Successful!", Toast.LENGTH_SHORT).show()
-                var navHome = activity as FragmentNav
-                navHome.navFragment(HomeFragment(), addToStack = true)
+                var navUser = activity as FragmentNav
+                navUser.navFragment(UserFragment(), addToStack = true)
             }
             else{
                 Toast.makeText(context, task.exception?.message, Toast.LENGTH_SHORT).show()
@@ -89,10 +89,10 @@ class LoginFragment : Fragment() {
         warningIcon?.setBounds(0, 0, warningIcon.intrinsicWidth, warningIcon.intrinsicHeight)
         when {
             TextUtils.isEmpty(username.text.toString().trim()) -> {
-                username.setError("Inavalid Username!", warningIcon)
+                username.setError("Invalid Username!", warningIcon)
             }
             TextUtils.isEmpty(password.text.toString().trim()) -> {
-                password.setError("Inavalid Password!", warningIcon)
+                password.setError("Invalid Password!", warningIcon)
             }
             username.text.toString().isNotEmpty() &&
                     password.text.toString().isNotEmpty() ->

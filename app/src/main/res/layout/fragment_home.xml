@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,43 +7,107 @@
     tools:context=".HomeFragment"
     android:background="@drawable/app_background_2">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/circ_image"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="60dp"
+        app:civ_border_color="#FF000000"
+        android:src="@drawable/ic_baseline_person_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:layout_width="135dp"
-        android:layout_height="135dp"
-        android:layout_marginLeft="140dp"
-        android:layout_marginTop="100dp"
-        android:src="@drawable/logo" />
+    <ImageButton
+        android:id="@+id/bt_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_add_a_photo_24"
+        app:layout_constraintBottom_toBottomOf="@+id/circ_image"
+        app:layout_constraintStart_toEndOf="@+id/circ_image" />
+
+    <TextView
+        android:id="@+id/tv_firstname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="@string/first_name"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/circ_image" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/et_firstname"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_firstname" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_lastname"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/last_name"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_firstname" />
+    <EditText
+        android:id="@+id/et_lastname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:flow_horizontalBias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_lastname" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_bio"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/bio"
+        android:textSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/et_lastname" />
+    <EditText
+        android:id="@+id/et_bio"
+        android:hint="@string/optional"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:flow_horizontalBias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_bio" />
+
+    <Button
+        android:id="@+id/bt_save"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        app:layout_constraintBottom_toTopOf="@+id/bt_logout"
+        app:layout_constraintEnd_toEndOf="@+id/et_bio"
+        app:layout_constraintStart_toStartOf="@+id/et_bio"
+        app:layout_constraintTop_toBottomOf="@id/et_bio" />
+
 
     <com.google.android.material.button.MaterialButton
-            android:id="@+id/bt_logout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="620dp"
-            android:layout_marginLeft="155dp"
-            android:text="@string/log_out" />
-
-    <ImageButton
-        android:id="@+id/bt_sell"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginTop="420dp"
-        android:layout_marginLeft="250dp"
-        android:src="@drawable/sell_icon"
-        android:scaleType="fitCenter"
-        android:text="@string/sell" />
-
-    <ImageButton
-        android:id="@+id/bt_buy"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginLeft="45dp"
-        android:layout_marginTop="420dp"
-        android:scaleType="fitCenter"
-        android:src="@drawable/buy_icon"
-        android:text="@string/buy" />
-
-
-
-
-</FrameLayout>
+        android:id="@+id/bt_logout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:text="@string/log_out"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/bt_save"
+        app:layout_constraintStart_toStartOf="@+id/bt_save" />
+</androidx.constraintlayout.widget.ConstraintLayout>

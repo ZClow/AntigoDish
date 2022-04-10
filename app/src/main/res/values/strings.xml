@@ -8,4 +8,9 @@
     <string name="log_out">Log Out</string>
     <string name="sell">Sell</string>
     <string name="buy">Buy</string>
+    <string name="save">Save</string>
+    <string name="bio">Bio</string>
+    <string name="last_name">Last Name</string>
+    <string name="first_name">First Name</string>
+    <string name="optional">(Optional)</string>
 </resources>
