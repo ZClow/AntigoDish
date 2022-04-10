@@ -54,10 +54,6 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_home, container, false)
 
-//        firstname = view.findViewById(R.id.et_firstname)
-//        lastname = view.findViewById(R.id.et_lastname)
-//        bio = view.findViewById(R.id.et_bio)
-
         firstname = view.findViewById<EditText>(R.id.et_firstname)
         lastname = view.findViewById<EditText>(R.id.et_lastname)
         bio = view.findViewById<EditText>(R.id.et_bio)
@@ -69,10 +65,6 @@ class HomeFragment : Fragment() {
 
 
 
-
-//        val uid = fAuth.currentUser?.uid
-//        dbreference = FirebaseDatabase.getInstance().getReference("Users")
-
         view.findViewById<Button>(R.id.bt_logout).setOnClickListener{
             Firebase.auth.signOut()
             Toast.makeText(context, "Logged Out!", Toast.LENGTH_SHORT).show()
@@ -82,6 +74,8 @@ class HomeFragment : Fragment() {
 
         view.findViewById<Button>(R.id.bt_save).setOnClickListener{
             checkValid()
+            var navUser = activity as FragmentNav
+            navUser.navFragment(UserFragment(), addToStack = true)
         }
         return view
 
@@ -117,38 +111,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun saveDetails(firstname: String, lastname: String, bio: String) {
-
-//        fAuth.currentUser?.let { user ->
-//            val firstname = view?.findViewById<EditText>(R.id.et_firstname)?.text.toString()
-//            val lastname = view?.findViewById<EditText>(R.id.et_lastname)?.text.toString()
-//            val bio = view?.findViewById<EditText>(R.id.et_bio)?.text.toString()
-//            val updates = UserProfileChangeRequest.Builder()
-//                .setDisplayName(firstname)
-//                .build()
-//
-//            CoroutineScope(Dispatchers.IO).launch {
-//                try {
-//                    user.saveDetails(updates).await()
-//                    withContext(Dispatchers.Main) {
-//                        Toast.makeText(context, "Saved!", Toast.LENGTH_SHORT).show()
-//                    }
-//
-//                    }catch (e: Exception){
-//                    withContext(Dispatchers.Main){
-//                        Toast.makeText(context, e.message, Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//            }
-//        }
-//        ------------------------------------------------------------------------------------
-//        val user = User(firstname, lastname, bio)
-//        fAuth = FirebaseAuth.getInstance()
-//        ------------------------------------------------------------------------------------
+        val user = User(firstname, lastname, bio)
         val uid = fAuth.currentUser?.uid
         dbreference = FirebaseDatabase.getInstance().getReference("Users")
 
         if (uid != null){
-            dbreference.child(uid).setValue(firstname).addOnCompleteListener{
+            dbreference.child(uid).setValue(user).addOnCompleteListener{
                 if (it.isSuccessful){
                     Toast.makeText(context,"Saved!", Toast.LENGTH_SHORT).show()
                 }
