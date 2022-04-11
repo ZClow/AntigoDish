@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
@@ -43,6 +44,23 @@ class UserFragment : Fragment() {
 //        toggle.syncState()
 
 
+        navView.setNavigationItemSelectedListener {
+        when(it.itemId){
+            R.id.nav_home -> Toast.makeText(context, "Home", Toast.LENGTH_SHORT).show()
+            R.id.nav_orders -> Toast.makeText(context, "Orders", Toast.LENGTH_SHORT).show()
+            R.id.nav_settings -> {
+                var navSettings = activity as FragmentNav
+                navSettings.navFragment(HomeFragment(), addToStack = true)
+            }
+            R.id.nav_delete -> Toast.makeText(context, "Delete", Toast.LENGTH_SHORT).show()
+            R.id.nav_logout -> {
+                var navLogin = activity as FragmentNav
+                navLogin.navFragment(LoginFragment(), addToStack = false)
+            }
+
+        }
+            true
+    }
 
         return view
     }

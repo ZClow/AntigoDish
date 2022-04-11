@@ -75,8 +75,8 @@ class HomeFragment : Fragment() {
         view.findViewById<Button>(R.id.bt_logout).setOnClickListener{
             Firebase.auth.signOut()
             Toast.makeText(context, "Logged Out!", Toast.LENGTH_SHORT).show()
-            var navHome = activity as FragmentNav
-            navHome.navFragment(LoginFragment(), addToStack = false)
+            var navLogin = activity as FragmentNav
+            navLogin.navFragment(LoginFragment(), addToStack = false)
         }
 
         view.findViewById<Button>(R.id.bt_save).setOnClickListener{
