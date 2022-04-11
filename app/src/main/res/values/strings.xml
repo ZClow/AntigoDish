@@ -13,4 +13,6 @@
     <string name="last_name">Last Name</string>
     <string name="first_name">First Name</string>
     <string name="optional">(Optional)</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>
