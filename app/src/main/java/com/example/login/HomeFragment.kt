@@ -1,16 +1,19 @@
 package com.example.login
 
+import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.Toast
+import android.webkit.MimeTypeMap
+import android.widget.*
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.content.res.AppCompatResources
 import com.example.login.databinding.ActivityMainBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -19,11 +22,16 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.StorageTask
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.IOException
+//import android.content.ContentResolver as contentResolver
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -42,10 +50,11 @@ class HomeFragment : Fragment() {
     private lateinit var lastname: EditText
     private lateinit var bio: EditText
     private lateinit var fAuth: FirebaseAuth
+    private lateinit var fStore: FirebaseStorage
     private lateinit var dbreference: DatabaseReference
+    private lateinit var storeference: StorageReference
     private lateinit var uploader: ImageButton
     private lateinit var image: CircleImageView
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,12 +66,10 @@ class HomeFragment : Fragment() {
         firstname = view.findViewById<EditText>(R.id.et_firstname)
         lastname = view.findViewById<EditText>(R.id.et_lastname)
         bio = view.findViewById<EditText>(R.id.et_bio)
+        uploader = view.findViewById(R.id.bt_upload)
+
         fAuth = FirebaseAuth.getInstance()
-
-//        view.findViewById<ImageButton>(R.id.bt_image).setOnClickListener{
-//            uploadImage()
-//        }
-
+        fStore = FirebaseStorage.getInstance()
 
 
         view.findViewById<Button>(R.id.bt_logout).setOnClickListener{
@@ -74,19 +81,9 @@ class HomeFragment : Fragment() {
 
         view.findViewById<Button>(R.id.bt_save).setOnClickListener{
             checkValid()
-            var navUser = activity as FragmentNav
-            navUser.navFragment(UserFragment(), addToStack = true)
         }
         return view
-
-
     }
-
-//    private fun uploadImage() {
-//
-//
-//    }
-
 
     private fun checkValid(){
         val warningIcon = AppCompatResources.getDrawable(
@@ -103,7 +100,8 @@ class HomeFragment : Fragment() {
             }
             firstname.text.toString().isNotEmpty() &&
                     lastname.text.toString().isNotEmpty() -> {
-//                Toast.makeText(context,"Saved!", Toast.LENGTH_SHORT).show()
+                            var navUser = activity as FragmentNav
+                            navUser.navFragment(UserFragment(), addToStack = false)
                 saveDetails(firstname.text.toString(), lastname.text.toString(), bio.text.toString())
             }
 
@@ -115,7 +113,7 @@ class HomeFragment : Fragment() {
         val uid = fAuth.currentUser?.uid
         dbreference = FirebaseDatabase.getInstance().getReference("Users")
 
-        if (uid != null){
+        if (uid != null ){
             dbreference.child(uid).setValue(user).addOnCompleteListener{
                 if (it.isSuccessful){
                     Toast.makeText(context,"Saved!", Toast.LENGTH_SHORT).show()

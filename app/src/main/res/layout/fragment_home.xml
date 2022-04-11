@@ -20,12 +20,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/bt_image"
-        android:layout_width="wrap_content"
+        android:id="@+id/bt_select"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_baseline_add_a_photo_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/circ_image"
+        app:layout_constraintTop_toTopOf="@+id/circ_image" />
+
+    <ImageButton
+        android:id="@+id/bt_upload"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_done_all_24"
         app:layout_constraintBottom_toBottomOf="@+id/circ_image"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/circ_image" />
+
 
     <TextView
         android:id="@+id/tv_firstname"
