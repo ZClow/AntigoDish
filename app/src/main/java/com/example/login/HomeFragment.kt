@@ -115,13 +115,11 @@ class HomeFragment : Fragment() {
 
     private fun uploadImage(filepath: Uri){
         val uid = fAuth.currentUser?.uid
-//        if (filepath != null) {
-//            val fileName = UUID.randomUUID().toString() +".jpg"
+//        dbreference = FirebaseDatabase.getInstance().getReference("Users")
+        storeference = FirebaseStorage.getInstance().getReference("Users")
 
-        dbreference = FirebaseDatabase.getInstance().getReference("Users")
-        storeference = FirebaseStorage.getInstance().reference.child(filepath.toString())
         if (uid != null){
-            storeference.child(uid).putFile(filepath).addOnCompleteListener{
+            storeference.child(fAuth!!.uid!!).child("image").child("Profile Pic").putFile(filepath).addOnCompleteListener{
                 if(it.isSuccessful){
                     Toast.makeText(context, "Image Saved!", Toast.LENGTH_SHORT).show()
                 }
@@ -158,9 +156,8 @@ class HomeFragment : Fragment() {
         val user = User(firstname, lastname, bio)
         val uid = fAuth.currentUser?.uid
         dbreference = FirebaseDatabase.getInstance().getReference("Users")
-
         if (uid != null ){
-            dbreference.child(uid).setValue(user).addOnCompleteListener{
+            dbreference.child(fAuth!!.uid!!).child("user info").setValue(user).addOnCompleteListener{
                 if (it.isSuccessful){
                     Toast.makeText(context,"Saved!", Toast.LENGTH_SHORT).show()
                 }
