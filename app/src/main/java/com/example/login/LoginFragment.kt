@@ -28,7 +28,7 @@ class LoginFragment : Fragment() {
 //    // TODO: Rename and change types of parameters
 //    private var param1: String? = null
 //    private var param2: String? = null
-    private lateinit var username: EditText
+    private lateinit var emailID: EditText
     private lateinit var password: EditText
     private lateinit var fAuth: FirebaseAuth
 
@@ -47,7 +47,7 @@ class LoginFragment : Fragment() {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_login, container, false)
 
-        username = view.findViewById(R.id.tv_username_log)
+        emailID = view.findViewById(R.id.tv_email_log)
         password = view.findViewById(R.id.tv_pass_log)
         fAuth = Firebase.auth
 
@@ -65,7 +65,7 @@ class LoginFragment : Fragment() {
 
     private fun firebaseSignIn(){
 
-        fAuth.signInWithEmailAndPassword(username.text.toString(),
+        fAuth.signInWithEmailAndPassword(emailID.text.toString(),
         password.text.toString()).addOnCompleteListener{
             task ->
             if (task.isSuccessful){
@@ -88,21 +88,21 @@ class LoginFragment : Fragment() {
 
         warningIcon?.setBounds(0, 0, warningIcon.intrinsicWidth, warningIcon.intrinsicHeight)
         when {
-            TextUtils.isEmpty(username.text.toString().trim()) -> {
-                username.setError("Invalid Username!", warningIcon)
+            TextUtils.isEmpty(emailID.text.toString().trim()) -> {
+                emailID.setError("Invalid Email ID!", warningIcon)
             }
             TextUtils.isEmpty(password.text.toString().trim()) -> {
                 password.setError("Invalid Password!", warningIcon)
             }
-            username.text.toString().isNotEmpty() &&
+            emailID.text.toString().isNotEmpty() &&
                     password.text.toString().isNotEmpty() ->
             {
-                if (username.text.toString().matches(Regex("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"))){
+                if (emailID.text.toString().matches(Regex("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"))){
 
                     firebaseSignIn()
                 }else
                 {
-                    username.setError("Invalid Username!", warningIcon)
+                    emailID.setError("Invalid Email ID!", warningIcon)
                 }
             }
 

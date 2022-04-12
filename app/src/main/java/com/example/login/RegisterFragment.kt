@@ -12,7 +12,11 @@ import android.widget.Toast
 import androidx.appcompat.content.res.AppCompatResources
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import java.sql.RowId
 
 // TODO: Rename parameter arguments, choose names that match
@@ -29,10 +33,15 @@ class RegisterFragment : Fragment() {
     // TODO: Rename and change types of parameters
 //    private var param1: String? = null
 //    private var param2: String? = null
-    private lateinit var username: EditText
+    private lateinit var emailID: EditText
     private lateinit var password: EditText
     private lateinit var cpassword: EditText
     private lateinit var fAuth: FirebaseAuth
+//    private lateinit var fAuth: FirebaseAuth
+    private lateinit var fStore: FirebaseStorage
+    private lateinit var dbreference: DatabaseReference
+//    private lateinit var storeference: StorageReference
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +58,7 @@ class RegisterFragment : Fragment() {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_register, container, false)
 
-        username = view.findViewById(R.id.tv_username_reg)
+        emailID = view.findViewById(R.id.tv_email_reg)
         password = view.findViewById(R.id.tv_pass_reg)
         cpassword = view.findViewById(R.id.tv_cpass_reg)
         fAuth = Firebase.auth
@@ -69,7 +78,7 @@ class RegisterFragment : Fragment() {
 
     private fun firebaseSignUp(){
 
-        fAuth.createUserWithEmailAndPassword(username.text.toString(),
+        fAuth.createUserWithEmailAndPassword(emailID.text.toString(),
         password.text.toString()).addOnCompleteListener{
             task ->
             if (task.isSuccessful){
@@ -93,8 +102,8 @@ class RegisterFragment : Fragment() {
 
         warningIcon?.setBounds(0, 0, warningIcon.intrinsicWidth, warningIcon.intrinsicHeight)
         when {
-            TextUtils.isEmpty(username.text.toString().trim()) -> {
-                username.setError("Invalid Username!", warningIcon)
+            TextUtils.isEmpty(emailID.text.toString().trim()) -> {
+                emailID.setError("Invalid Email ID!", warningIcon)
             }
             TextUtils.isEmpty(password.text.toString().trim()) -> {
                 password.setError("Invalid Password!", warningIcon)
@@ -102,13 +111,14 @@ class RegisterFragment : Fragment() {
             TextUtils.isEmpty(cpassword.text.toString().trim()) -> {
                 cpassword.setError("Invalid Password!", warningIcon)
             }
-            username.text.toString().isNotEmpty() &&
+            emailID.text.toString().isNotEmpty() &&
             password.text.toString().isNotEmpty() &&
             cpassword.text.toString().isNotEmpty() ->
             {
-                if (username.text.toString().matches(Regex("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"))){
+                if (emailID.text.toString().matches(Regex("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+"))){
                     if (password.text.toString().length>=8){
                         if (password.text.toString() == cpassword.text.toString()){
+                            saveDetails(emailID.text.toString())
                             firebaseSignUp()
                         }else
                         {
@@ -121,7 +131,7 @@ class RegisterFragment : Fragment() {
                     }
                 }else
                 {
-                    username.setError("Invalid Username!", warningIcon)
+                    emailID.setError("Invalid Email ID!", warningIcon)
                 }
             }
 
@@ -129,23 +139,22 @@ class RegisterFragment : Fragment() {
 
         }
     }
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RegisterFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RegisterFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+
+    private fun saveDetails(emailID : String) {
+        val email_id = Email(emailID)
+        val uid = fAuth.currentUser?.uid
+        dbreference = FirebaseDatabase.getInstance().getReference("Users")
+        if (uid != null ){
+            dbreference.child(uid).child("user info").setValue(email_id).addOnCompleteListener{
+                if (!it.isSuccessful){
+                    Toast.makeText(context,"Failed to Save!", Toast.LENGTH_SHORT).show()
                 }
+//                else{
+//                    Toast.makeText(context, "Failed to Save!", Toast.LENGTH_SHORT).show()
+//                }
             }
+        }
+
     }
+
 }

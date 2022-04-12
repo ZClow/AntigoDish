@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.TextUtils
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -63,6 +64,7 @@ class HomeFragment : Fragment() {
     private lateinit var selector : ImageButton
     private lateinit var imagePreview: ImageView
     private lateinit var filePath: Uri
+    private lateinit var emailID : EditText
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -74,8 +76,10 @@ class HomeFragment : Fragment() {
         firstname = view.findViewById<EditText>(R.id.et_firstname)
         lastname = view.findViewById<EditText>(R.id.et_lastname)
         bio = view.findViewById<EditText>(R.id.et_bio)
+//        emailID = view.findViewById(R.id.tv_email_reg)
 
         fAuth = FirebaseAuth.getInstance()
+
 
 
         view.findViewById<Button>(R.id.bt_logout).setOnClickListener {
@@ -114,12 +118,12 @@ class HomeFragment : Fragment() {
     }
 
     private fun uploadImage(filepath: Uri){
-        val uid = fAuth.currentUser?.uid
+//        val uid = fAuth.currentUser?.uid
 //        dbreference = FirebaseDatabase.getInstance().getReference("Users")
-        storeference = FirebaseStorage.getInstance().getReference("Users")
+        storeference = FirebaseStorage.getInstance().reference
 
-        if (uid != null){
-            storeference.child(fAuth!!.uid!!).child("image").child("Profile Pic").putFile(filepath).addOnCompleteListener{
+        if (fAuth.uid != null){
+            storeference.child(fAuth.uid!!).child("image").child("Profile Pic").putFile(filepath).addOnCompleteListener{
                 if(it.isSuccessful){
                     Toast.makeText(context, "Image Saved!", Toast.LENGTH_SHORT).show()
                 }
@@ -146,7 +150,7 @@ class HomeFragment : Fragment() {
             firstname.text.toString().isNotEmpty() &&
                     lastname.text.toString().isNotEmpty() -> {
                             var navUser = activity as FragmentNav
-                            navUser.navFragment(UserFragment(), addToStack = false)
+                            navUser.navFragment(UserFragment(), addToStack = true)
                 saveDetails(firstname.text.toString(), lastname.text.toString(), bio.text.toString())
             }
         }
@@ -154,10 +158,11 @@ class HomeFragment : Fragment() {
 
     private fun saveDetails(firstname: String, lastname: String, bio: String) {
         val user = User(firstname, lastname, bio)
-        val uid = fAuth.currentUser?.uid
+//        val uid = fAuth.currentUser?.uid
+
         dbreference = FirebaseDatabase.getInstance().getReference("Users")
-        if (uid != null ){
-            dbreference.child(fAuth!!.uid!!).child("user info").setValue(user).addOnCompleteListener{
+        if (fAuth.uid != null ){
+            dbreference.child(fAuth.uid!!).child("user info").setValue(user).addOnCompleteListener{
                 if (it.isSuccessful){
                     Toast.makeText(context,"Saved!", Toast.LENGTH_SHORT).show()
                 }

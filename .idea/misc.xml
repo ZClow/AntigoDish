@@ -5,6 +5,7 @@
       <map>
         <entry key="app/src/main/res/drawable/ic_baseline_add_a_photo_24.xml" value="0.21197916666666666" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/buy_card_view.xml" value="0.19519927536231885" />
         <entry key="app/src/main/res/layout/fragment_buy.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.21" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.18" />

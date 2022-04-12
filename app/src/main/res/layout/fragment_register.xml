@@ -34,14 +34,14 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/Username"
+            android:hint="Email ID"
             app:boxBackgroundColor="#6D009688"
             android:layout_marginTop="50dp"
             android:layout_marginStart="48dp"
             android:layout_marginEnd="48dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/tv_username_reg"
+                android:id="@+id/tv_email_reg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
